@@ -1,3 +1,4 @@
+/* Código escrito por João Edison Roso Manica */
 #include <stdio.h>
 
 char *numbers[] = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};

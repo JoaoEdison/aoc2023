@@ -1,3 +1,4 @@
+⍝ Código escrito por João Edison Roso Manica
 ∇Z←Check cube
   b ← (cube≠',')⊂cube
   bool ← 1

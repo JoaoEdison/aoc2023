@@ -1,3 +1,4 @@
+⍝ Código escrito por João Edison Roso Manica
 ∇Z←GetCubes game
   x ← (game≠',')⊂game
   cubes ← 0 0 0
