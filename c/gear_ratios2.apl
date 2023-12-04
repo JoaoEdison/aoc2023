@@ -41,24 +41,21 @@ in ← ⊃(⎕FIO[49] 'input')
 ∇
 symbols ← in∊'0123456789'
 nums ← ⍎¨(,symbols)⊂(,in)
-∇Z← Result idx
+∇Z← GetGear idx
   has ← symbols Neighbors idx
   →(2≠≢has⊂(12⍴1))⍴END
-  mapa ← (⍴in)⍴0
-  mapa[idx[1];idx[2]] ← 1
-  mat ← in∊'0123456789'
-  has ← {mapa Neighbors ⍵}¨⍸mat
+  map ← (⍴in)⍴0
+  map[idx[1];idx[2]] ← 1
+  has ← {map Neighbors ⍵}¨⍸symbols
   has ← {∨/⍵}¨has
-  has ← has⊂(⍸in∊'0123456789')
+  has ← has⊂(⍸symbols)
   has ← ,/(((⍴∊has)÷2),2)⍴(∊has)
-  {mat[⍵[1];⍵[2]] ← 0}¨has
-  res ← ⊃,/((~⌊/¨(,symbols)⊂(,mat))⊂nums)
-  Z ← res
+  matrix ← symbols
+  {matrix[⍵[1];⍵[2]] ← 0}¨has
+  Z ← ⊃,/((~⌊/¨(,symbols)⊂(,matrix))⊂nums)
   →0
   END:
   Z ← 0 0
 ∇
-mata ← in∊'*'
-res ← ({Result ⍵}¨⍸mata)
-+/×/¨res
++/×/¨({GetGear ⍵}¨⍸in∊'*')
 )OFF
