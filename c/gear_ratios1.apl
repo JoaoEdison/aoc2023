@@ -33,7 +33,7 @@ in ← ⊃(⎕FIO[49] 'input')
   →(mat OutOfBounds aux)⍴L7
     hasNeigh[7] ← aux⌷mat
   L7:
-  aux ← (pos[1],(pos[2]+1))
+  aux ← ((pos[1]-1),pos[2])
   →(mat OutOfBounds aux)⍴L8
     hasNeigh[8] ← aux⌷mat
   L8:
