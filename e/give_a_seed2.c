@@ -1,7 +1,8 @@
+/* Código escrito por João Edison Roso Manica */
 #include <stdio.h>
 #include <limits.h>
 
-typedef unsigned long long seedt;
+typedef unsigned long seedt;
 
 seedt seeds[20];
 seed_len, total_maps;
@@ -21,7 +22,7 @@ get_maps()
 
 	while (getchar()!='\n');
 	map_len = 0;
-	while ((last = scanf("%llu %llu %llu\n", &mappings_arr[total_maps].maps[map_len].dest_start,
+	while ((last = scanf("%lu %lu %lu\n", &mappings_arr[total_maps].maps[map_len].dest_start,
 					      &mappings_arr[total_maps].maps[map_len].source_start,
 					      &mappings_arr[total_maps].maps[map_len].len))) {
 		if (last == EOF)
@@ -34,21 +35,19 @@ get_maps()
 
 main()
 {
-	int i, j, k, l;
-	seedt min, seed;
+	int i, k, l;
+	seedt seed, j, min;
 	
-	min = LONG_MAX;
 	seed_len = -1;
 	scanf("seeds:");
-	while (scanf(" %llu", &seeds[++seed_len]));
+	while (scanf(" %lu", &seeds[++seed_len]));
 	while (get_maps())
 		total_maps++;
 	total_maps++;
+	min = ULONG_MAX;
 	for (i=0; i < seed_len; i+=2)
 		for (j=seeds[i]; j < seeds[i]+seeds[i+1]; j++) {
 			seed = j;
-			if (seed < 0)
-				printf("%d\n", i);
 			for (k=0; k < total_maps; k++)
 				for (l=0; l < mappings_arr[k].map_len; l++)
 					if (seed >= mappings_arr[k].maps[l].source_start &&
@@ -58,7 +57,7 @@ main()
 					}
 			if (min > seed) {
 				min = seed;
-				printf("%llu\n", min);
+				printf("%lu\n", min);
 			}
 		}
 }
