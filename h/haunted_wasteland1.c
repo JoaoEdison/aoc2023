@@ -14,8 +14,6 @@ struct {
 
 #define HASH(s) ((s[0]+s[1]+s[2])%'A')
 
-int max = 1;
-
 void create_node(key, left, right)
 char key[], left[], right[];
 {
@@ -23,8 +21,6 @@ char key[], left[], right[];
 	int hash;
 	
 	hash = HASH(key);
-	if (max < hash)
-		max = hash;
 	if (!table[hash].head) {
 		ptrn = table[hash].tail = table[hash].head = malloc(sizeof(struct node));
 	} else {
@@ -51,20 +47,12 @@ char key[];
 	return NULL;
 }
 
-void bind_table(curr)
-struct node *curr;
-{
-	curr->ptrs[0] = find_key(curr->left);
-	curr->ptrs[1] = find_key(curr->right);
-}
-
 main()
 {
-	char *instructions;
-	char current[4], left[4], right[4];
-	size_t len;
 	struct node *next;
-	char *instruction;
+	char current[4], left[4], right[4];
+	char *instruction, *instructions;
+	size_t len;
 	int steps;
 	
 	instructions = NULL;
@@ -78,7 +66,8 @@ main()
 	for (instruction = instructions;;instruction++) {
 		if (*instruction == '\n')
 			instruction = instructions;
-		bind_table(next);
+		next->ptrs[0] = find_key(next->left);
+		next->ptrs[1] = find_key(next->right);
 		next = next->ptrs[*instruction == 'R'];
 		steps++;
 		if (!strcmp(next->key, "ZZZ"))
