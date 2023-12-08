@@ -1,6 +1,5 @@
 a.out
-aux
-aux2
+aux*
 input
 .apl.history
 teste-*
