@@ -68,8 +68,8 @@ main()
 	char current[4], left[4], right[4];
 	char *instruction, *instructions;
 	size_t len;
-	int end_as, i, j, *steps;
-	positive_int a, b, *dynamic_table;
+	int end_as, i, j;
+	positive_int a, b, *steps;
 
 	instructions = NULL;
 	len = 0;
@@ -81,7 +81,7 @@ main()
 		if (current[2] == 'A')
 			as[end_as++] = newn;
 	}
-	steps = calloc(end_as, sizeof(int));
+	steps = calloc(end_as, sizeof(positive_int));
 	for (i=0; i < end_as; i++)
 		for (instruction = instructions;;instruction++) {
 			if (*instruction == '\n')
@@ -95,14 +95,11 @@ main()
 			if (as[i]->key[2] == 'Z')
 				break;
 		}
-	dynamic_table = malloc(sizeof(positive_int) * end_as * end_as);
-	for (i=0; i < end_as; i++)
-		dynamic_table[i] = steps[i];
-	for (i = 1; i < end_as; i++)
-		for (j = 0; j < end_as-i; j++) {
-			a = dynamic_table[(i-1)*end_as + j];
-			b = dynamic_table[(i-1)*end_as + j+1];
-			dynamic_table[i*end_as + j] = b / greatest_common_divisor(a,b) * a;
+	for (i = 0; i < end_as-1; i++)
+		for (j = 0; j < end_as-i-1; j++) {
+			a = steps[j];
+			b = steps[j+1];
+			steps[j] = b / greatest_common_divisor(a,b) * a;
 		}
-	printf("%lu\n", dynamic_table[i*(end_as-1)]);
+	printf("%lu\n", *steps);
 }
