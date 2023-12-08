@@ -1,3 +1,4 @@
+/* Código escrito por João Edison Roso Manica */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,13 +64,12 @@ positive_int x, y;
 
 main()
 {
-	struct node *newn;
+	struct node *newn, *as[100];
 	char current[4], left[4], right[4];
 	char *instruction, *instructions;
 	size_t len;
 	int end_as, i, j, *steps;
 	positive_int a, b, *dynamic_table;
-	struct node *as[100];
 
 	instructions = NULL;
 	len = 0;
