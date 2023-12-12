@@ -1,3 +1,4 @@
+/* Código escrito por João Edison Roso Manica */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
