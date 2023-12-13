@@ -1,4 +1,4 @@
-/*escrever o testador!!!*/
+/* Código escrito por João Edison Roso Manica */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
