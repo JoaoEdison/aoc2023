@@ -3,3 +3,4 @@ aux*
 input
 .apl.history
 teste-*
+.gitignore
