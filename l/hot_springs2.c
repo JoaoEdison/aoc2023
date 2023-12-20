@@ -1,5 +1,6 @@
-/* Código escrito por jonathanpaulson (https://github.com/jonathanpaulson/AdventOfCode/blob/master/2023/12.py)
- * Adaptado por João Edison Roso Manica*/
+/* Código escrito por João Edison Roso Manica.
+ * Baseado na solução de jonathanpaulson (https://github.com/jonathanpaulson/AdventOfCode/blob/master/2023/12.py)
+ * */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
