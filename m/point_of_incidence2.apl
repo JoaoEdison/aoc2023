@@ -71,11 +71,6 @@ mirrors ← ⍬
           →(∨/p1≠p2)⍴L5
           →((⍬≢p2)∧isT≠lisT)⍴L6
           mat[curr_idx;diff] ← ~mat[curr_idx;diff]
-          mat[curr_idx+curr_slice;diff] ← ~mat[curr_idx+curr_slice;diff]
-          p2 ← Reflections mat
-          →(∨/p1≠p2)⍴L5
-          →((⍬≢p2)∧isT≠lisT)⍴L6
-          mat[curr_idx+curr_slice;diff] ← ~mat[curr_idx+curr_slice;diff]
         →L4
   L6:
     ans ← p2
