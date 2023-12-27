@@ -1,32 +1,31 @@
 ⍝ Código escrito por João Edison Roso Manica
-]BOXING 8
 in ← ⎕FIO[49] 'input'
 getIdxOf ← {⍸⊃⍵=⍺}
 getLRock ← {¯2↑∊((⍺[;2]=2⌷rock)∧⍺[;1]<1⌷rock)⊂⍵}
 sort ← {⍵[⍋⍵]}
-∇Z← cubes Tilt rock;posMtx;cubeMtx;lround;lcube
+∇Z← cubesParams Tilt rock;posMtx;lround;lcube
   →(1<1⌷rock)⍴L0
     positions ← positions,⊂rock
     Z ← 0
     →0
   L0:
     posMtx ← ((⍴positions),2)⍴⊃positions
-    cubeMtx ← ⊃cubes
     lround ← posMtx getLRock positions
-    lcube ← cubeMtx getLRock cubes
+    lcube ← (⊃1⌷cubesParams) getLRock (⊃2⌷cubesParams)
     positions ← positions,⊂((1+(1⌷lround)⌈1⌷lcube),2⌷rock)
     Z ← 0
 ∇
-∇Z← cubes Turn vec;positions;a
+∇Z← cubesParams Turn vec;positions;a
   positions ← ⍬
-  a ← {cubes Tilt ⍵}¨vec
+  a ← {cubesParams Tilt ⍵}¨vec
   Z ← positions
 ∇
 x0 ← in getIdxOf 'O'
-cubesN ← in getIdxOf '#'
-cubesW ← sort {⊖⍵}¨cubesN
-cubesS ← sort {(1+(⍴in)-2⌷⍵),1⌷⍵}¨cubesW
-cubesL ← sort {(1+(⍴in)-2⌷⍵),1+(⍴in)-1⌷⍵}¨cubesS
+mtxT ← {((⊃⍵) ⍵)}
+cubesN ← mtxT in getIdxOf '#'
+cubesW ← mtxT sort {⊖⍵}¨(⊃2⌷cubesN)
+cubesS ← mtxT sort {(1+(⍴in)-2⌷⍵),1⌷⍵}¨(⊃2⌷cubesW)
+cubesL ← mtxT sort {(1+(⍴in)-2⌷⍵),1+(⍴in)-1⌷⍵}¨(⊃2⌷cubesS)
 ∇Z← Cycle map;prev;now
   prev ← cubesN Turn map 
   now ← sort {⊖⍵}¨prev
@@ -70,13 +69,13 @@ cubesL ← sort {(1+(⍴in)-2⌷⍵),1+(⍴in)-1⌷⍵}¨cubesS
       mu ← mu+1
   →L5
   L6:
-    Z ← lam,mu
+    Z ← lam,mu,⊂hare
 ∇
 ∇ Part2 last;cyc;remain;curr
   cyc ← Brent
   cyc
-  remain ← (2⌷cyc)+(1⌷cyc)|last-2⌷cyc
-  curr ← x0
+  remain ← cyc[1]|last-2⌷cyc
+  curr ← ⊃3⌷cyc 
   L0:
     →(0=remain)⍴L1
       curr ← Cycle curr 
