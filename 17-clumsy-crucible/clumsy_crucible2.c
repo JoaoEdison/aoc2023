@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include "../estruturas-base/minheap.h"
+#include "../base-structures/minheap.h"
 
 #define MTX_SIZE 256
 #define TABLE_SIZE 1187
