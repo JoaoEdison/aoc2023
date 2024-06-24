@@ -118,13 +118,13 @@ loop()
 main()
 {
 	char c;
-	int i, j, len;
+	int i, j, len, wid;
 	
 	mat = malloc(MAT_SIZE*MAT_SIZE);
 	i = j = 1;
 	while ((c = getchar()) != EOF) {
 		if (c == '\n') {
-			len = j;
+			wid = j;
 			i++;
 			j=1;
 			continue;
@@ -134,13 +134,14 @@ main()
 		}
 		mat[i * MAT_SIZE + j++] = c;
 	}
-	for (i=0; i < len; i++)
+	len = i;
+	for (i=0; i <= wid; i++)
 		mat[i] = '.';
-	for (i=0; i < len; i++)
+	for (i=0; i <= wid; i++)
+		mat[len*MAT_SIZE + i] = '.';
+	for (i=0; i <= len; i++)
 		mat[i*MAT_SIZE] = '.';
 	for (i=0; i <= len; i++)
-		mat[i*MAT_SIZE + len] = '.';
-	for (i=0; i <= len; i++)
-		mat[len*MAT_SIZE + i] = '.';
+		mat[i*MAT_SIZE + wid] = '.';
 	printf("%d\n", loop());
 }
