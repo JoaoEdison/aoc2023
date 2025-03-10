@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../base-structures/math.c"
 
 struct node {
 	char key[4], left[4], right[4];
@@ -47,19 +48,6 @@ char key[];
 		if (!strcmp(key, ptr->key))
 			return ptr;
 	return NULL;
-}
-
-typedef unsigned long positive_int;
-
-positive_int greatest_common_divisor(x, y)
-positive_int x, y;
-{
-	while (x && y)
-		if (x > y)
-			x %= y;
-		else
-			y %= x;
-	return x? x : y;
 }
 
 main()
