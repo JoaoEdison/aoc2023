@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../base-structures/math.c"
+#include "../base_structures/math.c"
 
 struct node {
 	char key[4], left[4], right[4];

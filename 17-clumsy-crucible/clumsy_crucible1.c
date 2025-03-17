@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include "../base-structures/minheap.h"
+#include "../base_structures/minheap.c"
 
 #define MTX_SIZE 256
 #define TABLE_SIZE 1187
@@ -49,7 +49,7 @@ unsigned char ac,d;
 	return &newit->data;
 }
 
-HeapMin *queue;
+minheap queue;
 
 void add_edge(x,y,d,ac,dist)
 unsigned char ac,d;
@@ -58,7 +58,7 @@ unsigned char ac,d;
 	
 	if ((next = insert_set(x,y,d,ac))) {
 		next->dist = dist + matx[x*MTX_SIZE+y];
-		insert_minheap(queue, next);
+		insert_minheap(&queue, next);
 	}
 }
 
@@ -69,9 +69,9 @@ void shortest()
 	
 	ptri = insert_set(0,0,4,0);
 	ptri->dist = 0;
-	insert_minheap(queue, ptri);
+	insert_minheap(&queue, ptri);
 	jumpo = 5;
-	while ((ptri = pop_minheap(queue))) {
+	while ((ptri = pop_minheap(&queue))) {
 		curr = *ptri;
 		jumpac = 0;
 		if (curr.d == 0){
@@ -124,9 +124,9 @@ main()
 		matx[len*MTX_SIZE+wid++] = c - '0';
 	}
 	wid = i;
-	queue = create_minheap(QUEUE_SIZE, compar);
+	create_minheap(queue, QUEUE_SIZE, compar);
 	shortest();
-	free(queue);
+	free_minheap(queue);
 	min = INT_MAX;
 	for (i=0;i<TABLE_SIZE;i++)
 		for (next=table[i].head; next; next = next->next)
