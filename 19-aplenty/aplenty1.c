@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../base_structures/hash.c"
 #include "../base_structures/linkedlist.c"
 
 #define TABLE_SIZE 51
@@ -15,16 +16,6 @@ struct workflow {
 };
 
 list_linkedlist table[TABLE_SIZE] = { 0 };
-
-hashstr(s)
-char *s;
-{
-    int res;
-    
-    for (res=0;*s;s++)
-        res += *s;    
-    return res%TABLE_SIZE;
-}
 
 compare_workflows(w1, w2)
 const void *w1, *w2;
@@ -84,7 +75,7 @@ void parse()
         } else if (inside) {
             if (first) {
                 *p = '\0';
-                append_linkedlist(&table[hashstr(new->names[0])], new);
+                append_linkedlist(&table[hashstr(new->names[0], TABLE_SIZE)], new);
                 first=0;
                 p = bufferin;
                 *p++ = c;
@@ -113,7 +104,7 @@ void assemble()
                 else {
                     curr->type |= 1<<k;
                     strcpy(mock.names[0], curr->names[k+1]);
-                    curr->next[k] = find_linkedlist(&table[hashstr(mock.names[0])], &mock, compare_workflows);
+                    curr->next[k] = find_linkedlist(&table[hashstr(mock.names[0], TABLE_SIZE)], &mock, compare_workflows);
                 }
         }
 }
@@ -152,7 +143,7 @@ main()
     parse();
     assemble();
     strcpy(mock.names[0], "in");
-    in = find_linkedlist(&table[hashstr("in")], &mock, compare_workflows);
+    in = find_linkedlist(&table[hashstr("in", TABLE_SIZE)], &mock, compare_workflows);
     sum=0;
     while (scanf("{x=%d,m=%d,a=%d,s=%d}\n",xmas,&xmas[1],&xmas[2],&xmas[3]) != EOF) {
         curr = in;

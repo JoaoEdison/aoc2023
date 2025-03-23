@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../base_structures/hash.c"
 #include "../base_structures/linkedlist.c"
 #include "../base_structures/avltree.c"
 #include <assert.h>
@@ -15,9 +16,9 @@
 
 typedef unsigned char positive;
 
-struct workflow {
+typedef struct workflow {
     // first id is from the node.
-    char names[6][5];
+    char names[DIM+2][5];
     // Compared number.
     short rules[DIM];
     // next node if rule is true.
@@ -26,25 +27,15 @@ struct workflow {
     // numcat is the number of rules.
     // type is not zero if it goes to another node.
     positive greater,type,numcat,categories[DIM];
-};
-
-hashstr(s)
-char *s;
-{
-    int res;
-    
-    for (res=0;*s;s++)
-        res += *s;    
-    return res%TABLE_SIZE;
-}
+} workflow;
 
 compare_workflows(w1, w2)
 const void *w1, *w2;
 {
-    return strcmp(((struct workflow*)w1)->names[0], ((struct workflow*)w2)->names[0]);
+    return strcmp(((workflow*)w1)->names[0], ((workflow*)w2)->names[0]);
 }
 
-struct workflow *new;
+workflow *new;
 char bufferin[50];
 
 // Interpret rule.
@@ -85,7 +76,7 @@ list_linkedlist table[];
     
     first=1;
     inside=0;
-    new = malloc(sizeof(struct workflow));
+    new = malloc(sizeof(workflow));
     new->type=new->greater=new->numcat=0;
     p = new->names[0];
     while ((c = getchar())!='\n'){
@@ -95,13 +86,13 @@ list_linkedlist table[];
             *p = '\0';
             rules();
             getchar();
-            new = malloc(sizeof(struct workflow));
+            new = malloc(sizeof(workflow));
             new->type=new->greater=new->numcat=0;
             p = new->names[0];
         } else if (inside) {
             if (first) {
                 *p = '\0';
-                append_linkedlist(&table[hashstr(new->names[0])], new);
+                append_linkedlist(&table[hashstr(new->names[0], TABLE_SIZE)], new);
                 first=0;
                 p = bufferin;
                 *p++ = c;
@@ -119,7 +110,7 @@ list_linkedlist table[];
 {
     int i,k;
     node_linkedlist *next;
-    struct workflow *curr, mock;
+    workflow *curr, mock;
         
     for (i=0;i<TABLE_SIZE;i++)
         for (next=table[i].head;next;next=next->next) {
@@ -132,24 +123,24 @@ list_linkedlist table[];
                 else {
                     curr->type |= 1<<k;
                     strcpy(mock.names[0], curr->names[k+1]);
-                    curr->next[k] = find_linkedlist(&table[hashstr(mock.names[0])], &mock, compare_workflows);
+                    curr->next[k] = find_linkedlist(&table[hashstr(mock.names[0], TABLE_SIZE)], &mock, compare_workflows);
                 }
         }
 }
 
 // Gets all ranges that are accepted.
 void groupings(work_ini, inter, accepted, end_accepted)
-struct workflow *work_ini;
+workflow *work_ini;
 short inter[], *accepted;
 int *end_accepted;
 {
     short arr[DIM*2], aux;
-    struct workflow *work;
+    workflow *work;
     int i,j;
     
     struct stack_iter {
         short inter[DIM*2];
-        struct workflow *work;
+        workflow *work;
     } *stack;
     int stack_end = 0;
 
@@ -379,7 +370,7 @@ main()
 
     short arr[DIM*2] = {1,4000,1,4000,1,4000,1,4000};
 
-    struct workflow mock;
+    workflow mock;
     int i;
 
     endarr=endunarr=0;
@@ -389,7 +380,7 @@ main()
     strcpy(mock.names[0], "in");
     parse(table);
     assemble(table);
-    groupings(find_linkedlist(&table[hashstr("in")], &mock, compare_workflows), arr, arrinter, &endarr);
+    groupings(find_linkedlist(&table[hashstr("in", TABLE_SIZE)], &mock, compare_workflows), arr, arrinter, &endarr);
     // unify intervals
     for (i=0;i<endarr;i++)
         new_comb(&arrinter[i*DIM*2], &unified);
