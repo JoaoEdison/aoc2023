@@ -1,3 +1,4 @@
+/* Código escrito por João Edison Roso Manica. */
 typedef unsigned long positive_int;
 
 positive_int greatest_common_divisor(x, y)
