@@ -38,9 +38,28 @@ typedef struct {
 
 void destroy_avl(avl_tree *t, avl_node *r);
 #define destroy_avltree(T) \
-    destroy_avl(&T, T.root)
+    do { \
+        if (T.nmemb) { \
+            destroy_avl(&T, T.root); \
+            T.nmemb = 0; \
+            T.root = NULL; \
+        } \
+    } while (0)
+#define destroy_avltree_ptr(T) \
+    do { \
+        if (T->nmemb) { \
+            destroy_avl(T, T->root); \
+            T->nmemb = 0; \
+            T->root = NULL; \
+        } \
+    } while (0)
 
-avl_node *find_node_avltree(avl_tree *t, avl_node *r, void *key, avl_node **parent);
+avl_node *find_node_avl(avl_tree *t, avl_node *r, void *key, avl_node **parent);
+#define find_node_avltree(T, KEY) \
+    find_node_avl(&T, T.root, KEY, NULL)
+#define find_node_avltree_ptr(T, KEY) \
+    find_node_avl(T, T->root, KEY, NULL)
+
 avl_node *find_max_avltree(avl_tree *t, avl_node *r);
 void insert_avltree(avl_tree *t, void *key, void *value);
 int remove_avltree(avl_tree *t, void *key, void **value);
@@ -56,6 +75,8 @@ void infix_avl(avl_tree *t, avl_node *r, avl_node *last);
 void prefix_avl(avl_tree *t, avl_node *r);
 #define prefix_avltree(T) \
     prefix_avl(&T, T.root)
+#define prefix_avltree_ptr(T) \
+    prefix_avl(T, T->root)
 
 void posfix_avl(avl_tree *t, avl_node *r);
 #define posfix_avltree(T) \

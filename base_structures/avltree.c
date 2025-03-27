@@ -44,7 +44,7 @@ avl_node *r;
     return r;
 }
 
-avl_node *find_node_avltree(t, r, key, parent)
+avl_node *find_node_avl(t, r, key, parent)
 avl_tree *t;
 avl_node *r, **parent;
 void *key;
@@ -56,7 +56,7 @@ void *key;
         return r;
     if (parent)
         *parent = r;
-    return find_node_avltree(t, r->child[cmp > 0], key, parent);
+    return find_node_avl(t, r->child[cmp > 0], key, parent);
 }
 
 // Least mirroed alg.
@@ -203,7 +203,7 @@ void *key, *value;
     
     // Commom insert in bst. ****
     parent = NULL;
-    if ((node = find_node_avltree(t, t->root, key, &parent))) {
+    if ((node = find_node_avl(t, t->root, key, &parent))) {
         if (node->has_value) {
             node->has_value = 0;
             free(node->value);
@@ -245,7 +245,7 @@ void *key, **value;
     
     two = 0;
     q = NULL;
-    if (!(z = find_node_avltree(t, t->root, key, &q)))
+    if (!(z = find_node_avl(t, t->root, key, &q)))
         return 1;
     if (z->child[0] && z->child[1]) {
         y = find_max_avltree(t, z->child[0]);
